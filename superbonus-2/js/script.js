@@ -76,6 +76,7 @@ btn.addEventListener("click", function(){
     grid.innerHTML = "";
     bombs = []
     points = 0;
+    gameOver = false
     // IMPOSTAZIONI PER LA DIFFICOLTA'
     let difficulty = document.querySelector(".form-select").value;
     if( difficulty == 0) {

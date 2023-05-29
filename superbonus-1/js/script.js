@@ -6,11 +6,13 @@ let square = "";
 let cells= "";
 let bombs = [];
 let points = 0;
+let gameOver = false;
 
 // CREAZIONE FUNZIONI
 // Funzione per generare i quadrati
 function squareGenerator(a){
     let square = document.createElement("div")
+    square.classList.add("square")
     square.classList.add(a)
     return square
 }
@@ -24,20 +26,23 @@ function gridGenerator(a, b, c){
         // IMPOSTAZIONE CLICK SQUARE
         square.addEventListener("click", function(){
 
-            if(bombs.includes(parseInt(this.innerHTML))){
-                square.classList.add("bomb")
-                alert("Hai perso!")
-                message.classList.remove("d-none")
-                message.innerHTML = `Hai totalizzato un punteggio di : ${points}`
-                message.classList.add("d-block")
-            } else {
-                square.classList.add("save")
-                points++
-                if(points == cells - 16){
-                    alert("Hai vinto!")
+            if(gameOver === false){
+                if(bombs.includes(parseInt(this.innerHTML))){
+                    square.classList.add("bomb")
+                    alert("Hai perso!")
                     message.classList.remove("d-none")
-                    message.innerHTML = `Complimenti, hai totalizzato il punteggio massimo di : ${points}`
+                    message.innerHTML = `Hai totalizzato un punteggio di : ${points}`
                     message.classList.add("d-block")
+                    gameOver = true;
+                } else {
+                    square.classList.add("save")
+                    points++
+                    if(points == cells - 16){
+                        alert("Hai vinto!")
+                        message.classList.remove("d-none")
+                        message.innerHTML = `Complimenti, hai totalizzato il punteggio massimo di : ${points}`
+                        message.classList.add("d-block")
+                    }
                 }
             }
         })

@@ -1,9 +1,11 @@
 // DICHIARAZIONE VARIABILI
 let btn = document.querySelector(".btn")
 let grid = document.querySelector(".grid")
+let message = document.querySelector(".message")
 let square = "";
 let cells= "";
 let bombs = [];
+let points = 0;
 
 // CREAZIONE FUNZIONI
 // Funzione per generare i quadrati
@@ -22,8 +24,24 @@ function gridGenerator(a, b, c){
         // IMPOSTAZIONE CLICK SQUARE
         square.addEventListener("click", function(){
 
-            square.classList.add("clicked")
-            console.log(this.innerHTML)
+            // square.classList.add("clicked")
+            // console.log(this.innerHTML)
+            if(bombs.includes(parseInt(this.innerHTML))){
+                square.classList.add("bomb")
+                alert("Hai perso!")
+                message.classList.remove("d-none")
+                message.innerHTML = `Hai totalizzato un punteggio di : ${points}`
+                message.classList.add("d-block")
+            } else {
+                square.classList.add("save")
+                points++
+                if(points == cells - 16){
+                    alert("Hai vinto!")
+                    message.classList.remove("d-none")
+                    message.innerHTML = `Complimenti, hai totalizzato il punteggio massimo di : ${points}`
+                    message.classList.add("d-block")
+                }
+            }
         })
     }
 }
@@ -46,32 +64,35 @@ btn.addEventListener("click", function(){
 
     grid.innerHTML = "";
     bombs = []
+    points = 0;
     // IMPOSTAZIONI PER LA DIFFICOLTA'
     let difficulty = document.querySelector(".form-select").value;
-    if( difficulty == 1){
-        if(grid.innerHTML === ""){
-            cells = 100
-            square = "square-10"
-        }
-    } else if ( difficulty == 2){
-        if(grid.innerHTML === ""){
-            cells = 81
-            square = "square-9"
-        }
-    } else if ( difficulty == 3){
-        if(grid.innerHTML === ""){
-            cells = 49
-            square = "square-7"
-        }
-    } else {
+    if( difficulty == 0) {
         alert("Seleziona una difficoltà prima di continuare")
+    } else {
+        if( difficulty == 1){
+            if(grid.innerHTML === ""){
+                cells = 100
+                square = "square-10"
+            }
+        } else if ( difficulty == 2){
+            if(grid.innerHTML === ""){
+                cells = 81
+                square = "square-9"
+            }
+        } else if ( difficulty == 3){
+            if(grid.innerHTML === ""){
+                cells = 49
+                square = "square-7"
+            }
+        }
+        //GENERAZIONE GRIGLIA
+        gridGenerator(1, cells, square)
+        //GENERAZIONE BOMBE
+        for(let i=1; i<=16; i++){
+            let bomb=bombsGenerator(bombs, cells)
+            bombs.push(bomb)
+        }
+        console.log(bombs)
     }
-    //GENERAZIONE GRIGLIA
-    gridGenerator(1, cells, square)
-    //GENERAZIONE BOMBE
-    for(let i=1; i<=16; i++){
-        let bomb=bombsGenerator(bombs, cells)
-        bombs.push(bomb)
-    }
-    console.log(bombs)
 })

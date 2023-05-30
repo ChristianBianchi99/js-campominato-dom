@@ -7,6 +7,7 @@ let cells= "";
 let bombs = [];
 let points = 0;
 let gameOver = false;
+let alreadyClicked= [];
 
 // CREAZIONE FUNZIONI
 // Funzione per generare i quadrati
@@ -42,9 +43,10 @@ function gridGenerator(a, b, c){
                             squares[j].classList.add("bomb")
                         }
                     }
-                } else {
+                } else if(!alreadyClicked.includes(this.innerHTML)) {
                     square.classList.add("save")
                     points++
+                    alreadyClicked.push(this.innerHTML)
                     if(points == cells - 16){
                         alert("Hai vinto!")
                         message.classList.remove("d-none")

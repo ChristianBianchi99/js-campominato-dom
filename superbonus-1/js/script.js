@@ -7,6 +7,7 @@ let cells= "";
 let bombs = [];
 let points = 0;
 let gameOver = false;
+let alreadyClicked= [];
 
 // CREAZIONE FUNZIONI
 // Funzione per generare i quadrati
@@ -34,9 +35,10 @@ function gridGenerator(a, b, c){
                     message.innerHTML = `Hai totalizzato un punteggio di : ${points}`
                     message.classList.add("d-block")
                     gameOver = true;
-                } else {
+                } else if(!alreadyClicked.includes(this.innerHTML)) {
                     square.classList.add("save")
                     points++
+                    alreadyClicked.push(this.innerHTML)
                     if(points == cells - 16){
                         alert("Hai vinto!")
                         message.classList.remove("d-none")
